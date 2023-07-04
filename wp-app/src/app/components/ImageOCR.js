@@ -83,7 +83,7 @@ const ImageOCR = async (filename, lang = 'por', type = 'image/jpeg') => {
 			
 			const auid = txt_string.match(/.+id.+([\d]+)/i)?.join('').replace(/[^\d]/g, '')
 			const apower = txt_string.match(/power.+([.\d+\w{1}]+)/i)?.join('').replace(/([^\.0-9]+)/gi, '').toUpperCase()
-			const akills = txt_string.match(/kills.+([\.\d+\w{1}]+)/i)?.join('').replace(/([^\.km0-9]+)/gi, '').toUpperCase()
+			const akills = txt_string.match(/kills.+([\.\d+\w{1}]+)/i)?.join('').replace(/([^\. km0-9]+)/gi, '').toUpperCase()
 			
 			arr_fmt = {
 				'uid' : auid ? auid : '', 

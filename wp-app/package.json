@@ -13,8 +13,6 @@
     "axios": "^1.4.0",
     "better-sqlite3": "^8.4.0",
     "classnames": "^2.3.2",
-    "eslint": "8.44.0",
-    "eslint-config-next": "13.4.7",
     "jimp": "^0.22.8",
     "next": "13.4.7",
     "postcss": "8.4.24",
@@ -23,5 +21,9 @@
     "sqlite3": "^5.1.6",
     "tailwindcss": "3.3.2",
     "tesseract.js": "^4.1.1"
+  },
+  "devDependencies": {
+    "eslint": "8.44.0",
+    "eslint-config-next": "13.4.7"
   }
 }
