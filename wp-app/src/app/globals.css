@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+.table-user {
+  width: 80svw;
+  margin: 10px auto;
+  border: 1px solid;
+}
+
+table td {
+  padding: 3px 5px;
+}
+
+.table-user tr {
+  background: rgba(255,255,255, .3)
+}
+
+.table-user tr:nth-child(even) {
+  background: rgba(0,0,0, .3)
+}
+
+.table-user tr.table-header {
+  background: rgb(100 100 100);
+  font-size: 1.05rem;
+  font-weight: bold;
+  color: white;
+}
+
+.table-user tr {
+  position: relative;
+}
+
+.table-user tr img {
+  max-width: 100px;
+}
+
+  .table-user tr img:hover {
+    position: absolute;
+    z-index: 22;
+    transform: translatex(-44svw) translateY(-20svw);
+    max-width: 44svw;
+}
