@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import Users from '@/app/components/Users'
+import Users from '../../components/Users'
 
 export async function GET(req) {
     const users = Users()
