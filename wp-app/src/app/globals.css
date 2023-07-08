@@ -51,32 +51,37 @@ body {
   background-position: center center;
   background-size: cover;
   background-color: var(--dark-color);
+  padding-bottom: 1rem;
 }
 
 
 .table-user {
-  width: 80svw;
+  min-width: 80svw;
   margin: 10px auto;
-  border: 1px solid;
+  border: 2px solid var(--dark-color);
 }
 
-table td {
-  padding: 3px 5px;
+.table-user td {
+  padding: 5px;
 }
 
 .table-user tr {
-  background: rgba(255,255,255, .3)
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .table-user tr:nth-child(even) {
-  background: rgba(0,0,0, .3)
+  background: rgba(0,0,0, .7)
 }
 
 .table-user tr.table-header {
-  background: rgb(100 100 100);
-  font-size: 1.05rem;
-  font-weight: bold;
-  color: white;
+  background: var(--dark-color);
+  font-size: 1rem;
+  font-family: var(--bolder-font);
+  color: rgb(var(--foreground-rgb));
+}
+
+.table-user tr.table-header td {
+  padding: 10px 5px;
 }
 
 .table-user tr {
@@ -101,10 +106,42 @@ table td {
 .page-title {
   font-size: 2.3rem;
   font-weight: bold;
+  display: inline-block;
 }
 
 .page-title::first-letter {
   color: var(--primary-color);
   font-family: var(--bolder-font);
   font-size: 3rem;
+}
+
+.page-title code {
+  font-size: 1.8rem;
+}
+
+.click-here {
+  display: inline-flex;
+  align-items: center;
+  color: var(--action-color);
+  gap: .4rem;
+}
+
+.click-here.primary {
+  color: var(--primary-color);
+}
+
+.container-scroll {
+  max-width: 100%;
+  max-height: 100svh;
+  overflow: auto;
+}
+
+.container-scroll-x {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.container-scroll-y {
+  max-height: 100svh;
+  overflow-y: auto;
 }

@@ -1,14 +1,7 @@
 import { NextResponse } from 'next/server'
-import sqlLite from '@/app/components/sqlLite'
+import Users from '@/app/components/Users'
 
 export async function GET(req) {
-
-    const db = sqlLite(true)
-    const response = []
-
-   
-    response.push(db.prepare(`SELECT * FROM players`).all())
-    
-    return NextResponse.json(response)
-
+    const users = Users()
+    return NextResponse.json(users)
 }
