@@ -8,7 +8,7 @@ export async function POST(req) {
     if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
       const file = formDataEntryValue;
       const buffer = Buffer.from(await file.arrayBuffer());
-      fs.writeFileSync(`src/app/images/${file.name}`, buffer);
+      fs.writeFileSync(`public/images/${file.name}`, buffer);
     }
   }
   return NextResponse.json({ success: true });

@@ -4,8 +4,51 @@ import Image from 'next/image'
 
 export default function Home() {
   sqlLite()
-  const users = sqlLite(true).prepare(`SELECT * FROM players ORDER BY atp DESC`).all() 
+  const users = sqlLite(true).prepare(`SELECT * FROM players ORDER BY round(power) DESC`).all() 
 
+  /* 
+          <td>Profile</td>
+          <td>Informações</td>
+          
+
+          
+          <td>P</td>
+          <td>I</td>
+  */
+  /*
+        <td>
+              <Image 
+                src={row.image ? row.image.replace('public/','').replace('./','/') + '?' + Date.now().toString() : '/noimg.jpg'} 
+                alt="Profile image"
+                width={1800}
+                height={1000}
+              />
+            </td>
+            <td>
+              <Image 
+                src={row.aditional ? row.aditional?.replace('public/','').replace('./','/') + '?' + Date.now().toString() : '/noimg.jpg'} 
+                alt="Stats image"
+                width={1800}
+                height={1000}
+              />
+            </td>
+            <td>
+              <Image 
+                src={row?.image?.replace('public/','').replace('./','/').replace('/images/','/images/proccessed/_')} 
+                alt="Stats image"
+                width={1800}
+                height={1000}
+              />
+            </td>
+            <td>
+              <Image
+                src={row?.aditional?.replace('public/','').replace('./','/').replace('/images/','/images/proccessed/_')} 
+                alt="Stats image"
+                width={1800}
+                height={1000}
+              />
+            </td>
+  */
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       
@@ -29,15 +72,17 @@ export default function Home() {
           <td>ATP</td>
           <td>Kills</td>
           <td>Modern Kills</td>
+
           <td>Lost personal</td>
           <td>Resources</td>
           <td>Tech</td>
           <td>Assists</td>
-          <td>Profile</td>
-          <td>Informações</td>
+
+        
         </tr>
         {users.map( (row, idx) => {
           return (
+            <>
           <tr key={idx}>
             <td key={idx}>{idx}</td>
             <td key={row.uid}>{row.uid}</td>
@@ -50,19 +95,38 @@ export default function Home() {
             <td key={row.collected}>{row.collected}</td>
             <td key={row.contributions}>{row.contributions}</td>
             <td key={row.assists}>{row.assists}</td>
-            <td>
+          </tr>
+          <tr key={`${idx}${idx}`} className='tr-images'>
+             <td colspan="11">
               <Image 
-                src={row.image.replace('public/','')} 
-                alt="Profile image"
-              />
-            </td>
-            <td>
+                  src={row.image ? row.image.replace('public/','').replace('./','/') + '?' + Date.now().toString() : '/noimg.jpg'} 
+                  alt="Profile"
+                  width={1800}
+                  height={1000}
+                />
+                <Image 
+                  src={row.aditional ? row.aditional?.replace('public/','').replace('./','/') + '?' + Date.now().toString() : '/noimg.jpg'} 
+                  alt="Stats"
+                  width={1800}
+                  height={1000}
+                />
+
               <Image 
-                src={row?.aditional?.replace('public/','')} 
-                alt="Stats image"
+                  src={row?.image?.replace('public/','').replace('./','/').replace('/images/','/images/proccessed/_')} 
+                  alt="Profile"
+                  width={1800}
+                  height={1000}
+                />
+              <Image
+                src={row?.aditional?.replace('public/','').replace('./','/').replace('/images/','/images/proccessed/_')} 
+                alt="Stats"
+                width={1800}
+                height={1000}
               />
-            </td>
-          </tr>)
+             </td>
+             
+          </tr>
+          </>)
         })}
       </table>
     </div>

@@ -5,6 +5,7 @@ import CustomFileSelector from './CustomFileSelector'
 import ImagePreview from './ImagePreview'
 import axios from 'axios'
 import classNames from 'classnames'
+import './styles/FileUploadForm.css'
 
 const FileUploadForm = () => {
     const [images, setImages] = useState([]);
@@ -19,7 +20,7 @@ const FileUploadForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        alert('VALIDATE');
         const formData = new FormData();
         images.forEach((image, i) => {
           formData.append(image.name, image);
@@ -30,18 +31,19 @@ const FileUploadForm = () => {
     };
 
     return (
-      <form className="w-full" onSubmit={handleSubmit}>
-        <div className="flex justify-between">
+      <form id='uploadForm' className="w-full" onSubmit={handleSubmit}>
+        <div className="flex justify-between columns-2 mb-10 file-shadow">
             <CustomFileSelector
             accept="image/jpg, image/jpeg"
             onChange={handleFileSelected} />
             <button
                 type='submit'
                 className={classNames({
-                    'bg-violet-50 text-violet-500 hover:bg-violet-100 px-4 py-2 rounded-md':
+                    'file-button':
                     true,
-                    'disabled pointer-events-none opacity-40': uploading,
+                    'disabled pointer-events-none opacity-60': uploading,
                 })}
+                id='uploadButton'
                 disabled={uploading}
                 >
             Upload

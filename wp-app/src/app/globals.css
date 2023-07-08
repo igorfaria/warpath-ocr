@@ -2,28 +2,33 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+@font-face {
+  font-family: "Brother-1816";
+  src: url("../../public/fonts/Brother-1816-Regular.woff");
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+@font-face {
+  font-family: "Brother-1816-Bolder";
+  src: url("../../public/fonts/Brother-1816-ExtraBold.woff");
+}
+
+
+:root {
+  --regular-font: "Brother-1816", sans-serif;
+  --bolder-font: "Brother-1816-Bolder", sans-serif;
+  --foreground-rgb: 255, 255, 255;
+  --primary-color: #fa9e00;
+  --action-color: #00fa4d;
+  --dark-color: #121212;
 }
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  background-image: url('https://warpath.lilith.com/static/media/community_bkg.ce6fd9d6.jpg');
+  background-repeat: repeat-y;
+  background-position: center center;
+  background-size: cover;
+  background-color: var(--dark-color);
 }
 
 .table-user {
@@ -56,12 +61,27 @@ table td {
 }
 
 .table-user tr img {
-  max-width: 100px;
+  max-width: 250px;
+  height: auto !important;
+  display: inline-block;
+  margin: 5px auto;
+
 }
 
-  .table-user tr img:hover {
-    position: absolute;
-    z-index: 22;
-    transform: translatex(-44svw) translateY(-20svw);
-    max-width: 44svw;
+.table-user tr.tr-images td {
+  text-align: center;
+  vertical-align: top;
+}
+
+
+/******************/ 
+.page-title {
+  font-size: 2.3rem;
+  font-weight: bold;
+}
+
+.page-title::first-letter {
+  color: var(--primary-color);
+  font-family: var(--bolder-font);
+  font-size: 3rem;
 }
