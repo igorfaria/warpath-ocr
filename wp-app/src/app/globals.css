@@ -107,6 +107,7 @@ body {
   font-size: 2.3rem;
   font-weight: bold;
   display: inline-block;
+  margin-right: 3px;
 }
 
 .page-title::first-letter {
@@ -116,7 +117,7 @@ body {
 }
 
 .page-title code {
-  font-size: 1.8rem;
+  font-size: .8rem;
 }
 
 .click-here {

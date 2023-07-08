@@ -4,7 +4,8 @@ const sqlite3 = require('sqlite3').verbose()
     
 const sqlLite = (better = false) => {
 
-    if(better) return require('better-sqlite3')(DATABASE_FILE)
+    if(better === true) return require('better-sqlite3')(DATABASE_FILE)
+    if(better == 'sync') return require('sqlite-sync').connect(DATABASE_FILE)
 
     const db = new sqlite3.Database(DATABASE_FILE, (err) => {
         if (err) {

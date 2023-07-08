@@ -44,9 +44,9 @@ const FileUploadForm = () => {
       return (<div>
           <div className='page-title'><code>Completed \o/</code></div>
           <br></br>
-          <div className='page-title'><code>Go to <a href='/review/' class='click-here primary'>review <NextIcon /></a></code></div>
+          <div className='page-title'><code>Go to <a href='/review/' className='click-here primary'>review <NextIcon /></a></code></div>
           <br /><br /><br />
-          <a href='/upload/' class='click-here primary'>Do you want to upload more?</a>
+          <a href='/upload/' className='click-here primary'>Do you want to upload more?</a>
       </div>)
     }
 

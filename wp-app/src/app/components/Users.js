@@ -1,7 +1,10 @@
 import sqlLite from "./sqlLite"
 const Users = () => {
-    sqlLite()
-    return sqlLite(true).prepare(`SELECT * FROM players ORDER BY round(power) DESC`).all()
+    // sqlLite()
+    const db = sqlLite('sync')
+    const rows = db.run(`SELECT * FROM players ORDER BY round(power) DESC`)
+    db.close()
+    return rows
 }
 
 export default Users
