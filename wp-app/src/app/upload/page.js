@@ -1,5 +1,4 @@
 'use client'
-
 import FileUploadForm from '../components/FileUploadForm'
 import Navbar from '../components/Navbar'
 import HomeIcon from '../components/icons/HomeIcon'

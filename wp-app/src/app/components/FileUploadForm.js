@@ -1,4 +1,4 @@
-'use client' // Make this component a client component
+'use client' 
 
 import React, { useState } from 'react'
 import CustomFileSelector from './CustomFileSelector'

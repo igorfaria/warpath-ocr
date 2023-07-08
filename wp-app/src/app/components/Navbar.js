@@ -10,7 +10,7 @@ const Navbar = ({items}) => {
                         <li key={item.label}>
                             <button 
                                 type='button'
-                                onClick={item.onClick}
+                                onClick={item?.onClick ? item.onClick : () => {}}
                             >
                                 <span>{item.icon}</span>
                                 <label>{item.label}</label>
