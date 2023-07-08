@@ -2,7 +2,9 @@ import { NextResponse } from 'next/server'
 import Users from '../../components/Users'
 
 export async function GET({ users }) {
-    return NextResponse.json(users)
+    let users_j = []
+    if(typeof users == 'object') users_j = users 
+    return NextResponse.json(users_j)
 }
 
 export async function getStaticPaths() {
