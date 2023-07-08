@@ -2,9 +2,12 @@
 
 import FileUploadForm from '../components/FileUploadForm'
 import Navbar from '../components/Navbar'
+import HomeIcon from '../components/icons/HomeIcon'
+import UploadIcon from '../components/icons/UploadIcon'
+import NextIcon from '../components/icons/NextIcon'
 
 export default function Upload() {
-    const onClick = () => {
+    const uploadButton = () => {
         let frm = document.querySelector('#uploadForm:valid')
         if(frm) {
             frm.querySelector('#uploadButton')?.click()
@@ -12,23 +15,31 @@ export default function Upload() {
             frm = document.querySelector('#uploadForm')
             frm.querySelector('input[type=file]')?.click()
         }
-        
     }
+
+    const goHome = () => {
+        window.location = '/'
+    }
+
+    const goReview = () => {
+        alert('Go review')
+    }
+
     const navItems = [
-        {
+        { 
             label: 'Home',
-            onClick: onClick,
-            icon: ':D'
+            onClick: goHome,
+            icon: HomeIcon()
         },
         {
             label: 'Upload',
-            onClick: onClick,
-            icon: '\\o/'
+            onClick: uploadButton,
+            icon: UploadIcon()
         },
         {
-            label: 'Lorem',
-            onClick: onClick,
-            icon: ':('
+            label: 'Review',
+            onClick: goReview,
+            icon: NextIcon()
         }
     ]
 

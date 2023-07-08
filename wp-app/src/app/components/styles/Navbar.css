@@ -1,3 +1,6 @@
+body {
+    padding-bottom: 5rem;
+}
 
 #navbar {
     position: fixed;
@@ -14,7 +17,6 @@
     justify-content: space-around;
     align-items: center;
     padding: .5rem 1rem;
-    padding-bottom: .8rem;
 }
 
 #navbar ul li { 
@@ -27,7 +29,9 @@
 }
 
 #navbar button {
-    background: rgba(255,255,255,.05);
+    position: relative;
+    top: -.01rem;
+    background: var(--dark-color);
     padding: 10px;
     display: flex;
     flex-direction: column;
@@ -35,14 +39,30 @@
     align-items: center;
     cursor: pointer;
     font-size: .9rem;
+    transition: .3s;
+    width: 3.5rem;
+    height: 3.5rem;
+    
+}
+
+#navbar button label {
+    font-size: .7rem;
 }
 
 #navbar li:nth-of-type(2) button {
+    font-family: var(--bolder-font);
     background: var(--primary-color);
     padding: 15px;
     position: absolute;
     top: 0;
     left: 0;
     transform: translate(-50%, -60%);
+    width: 4.5rem;
+    height: 4.5rem;
     font-size: 1rem;
+}
+
+#navbar button:hover,
+#navbar button:active {
+    background: var(--primary-color);
 }

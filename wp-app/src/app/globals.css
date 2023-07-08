@@ -20,6 +20,28 @@
   --primary-color: #fa9e00;
   --action-color: #00fa4d;
   --dark-color: #121212;
+  --delete-color: #c76565;
+}
+
+  /* Firefox */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: var(--primary-color) var(--dark-color);
+}
+
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 16px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--dark-color);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color);
+  border-radius: 0px;
+  border: 0;
 }
 
 body {
@@ -30,6 +52,7 @@ body {
   background-size: cover;
   background-color: var(--dark-color);
 }
+
 
 .table-user {
   width: 80svw;

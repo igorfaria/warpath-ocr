@@ -12,6 +12,7 @@
     width: 100%;
     height: 2.5rem;
     opacity: 0;
+    cursor: pointer;
   }
   
   .file-container:before {
@@ -21,7 +22,8 @@
     right: 0;
     bottom: 0;
     content: 'Click here to select \\o/';
-    display: block;
+    display: flex;
+    align-items: center;
     width: 100%; 
     pointer-events: none;
     padding: 6px 10px;
@@ -39,15 +41,34 @@
   }
   
   .file-button { 
+    display: flex;
+    align-items: center;
+    gap: .3rem;
     padding: 10px;
+    border: 2px solid;
     color: rgb(var(--foreground-rgb));
     background: var(--primary-color);
-    pointer-events: none;
+    
+    white-space: nowrap;
   }
+
   
   .file-container:has(input[type=file]:valid) ~ .file-button {
     background-color: var(--action-color);
     color: black;
+    border-color: var(--action-color);
     pointer-events: initial;
   }
   
+#uploadForm .img-actions {
+    line-height: 1;
+    margin-bottom: .3rem;
+    font-size: .8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--delete-color);
+    color: white;
+    display: flex;
+    padding: .3rem .1rem;
+}
