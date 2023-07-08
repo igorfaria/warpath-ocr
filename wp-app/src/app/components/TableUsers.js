@@ -10,7 +10,7 @@ const TableUsers = ({users}) => {
 
   return(<table className='table-user text-sm font-light'>
     <thead>
-       <tr class='table-header'>          
+       <tr className='table-header'>          
          <td scope="col">ID</td>
          <td scope="col">UID</td>
          <td scope="col">Name</td>
