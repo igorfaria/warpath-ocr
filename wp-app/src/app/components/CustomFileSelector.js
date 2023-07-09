@@ -3,7 +3,7 @@ import React from "react";
 
 const CustomFileSelector = (props) => {
   return (
-    <div class='file-container'>
+    <div className='file-container'>
       <input
         {...props}
         type="file"

@@ -10,7 +10,7 @@ export async function GET(req) {
   let current_index = req?.url?.match(/\?i=(\d+)/gi)[0].replace(/\D+/, '')
   current_index = !current_index ? 1 : current_index
   const next_index = parseInt(current_index) + 1
-  const quantity = 10
+  const quantity = 3
 
   const images_list = await Images(current_index, quantity)
 
