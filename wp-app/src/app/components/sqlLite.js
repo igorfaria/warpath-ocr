@@ -1,4 +1,4 @@
-const DATABASE_FILE = '/wpapp.db'
+const DATABASE_FILE = './../../../wpapp.db'
 
 const sqlite3 = require('sqlite3').verbose()
 import fs from 'fs'
