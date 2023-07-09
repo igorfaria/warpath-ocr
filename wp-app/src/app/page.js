@@ -11,14 +11,16 @@ export default function Home() {
 
   const [users, setUsers] = useState([])
 
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect( () => {
-    (async () =>{
-      const users_get = await axios.get('/api/users')
+    const loadData = async () => {
+      const users_get = await axios.get('/api/users?list=1')
       if(typeof users_get == 'object' && 'data' in users_get) {
         setUsers(users_get.data)
       }
-    })()
+    }
+    setTimeout(loadData, 100);
   })
  
 
