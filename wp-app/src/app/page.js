@@ -7,22 +7,23 @@ import HomeIcon from './components/icons/HomeIcon'
 import UploadIcon from './components/icons/UploadIcon'
 import NextIcon from './components/icons/NextIcon'
 
+
 export default function Home() {
+
 
   const [users, setUsers] = useState([])
 
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect( () => {
-    const loadData = async () => {
-      const users_get = await axios.get('/api/users?list=1')
-      if(typeof users_get == 'object' && 'data' in users_get) {
-        setUsers(users_get.data)
-      }
+    try {
+      axios.get('/api/users?list=1').then( v=> {
+        setUsers(v.data)
+      })
+    } catch (err) {
+      console.log('err', err)
     }
-    setTimeout(loadData, 100);
   })
- 
+  
 
   const uploadButton = () => {
      window.location = '/upload'

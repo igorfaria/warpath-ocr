@@ -1,7 +1,7 @@
 const TableUsers = ({users}) => {
 
   if(typeof users != 'object'){
-    return (<pre>Not valid users</pre>)
+    return (<pre>No valid users list :(</pre>)
   }
 
   if(users.length == 0) {
