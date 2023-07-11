@@ -1,53 +1,65 @@
-const DATABASE_FILE = 'wpapp.db'
+const moment = require('moment/moment')
+
+const DATABASE_FILE = moment().format('YYYYMM') + '_wpapp.db'
 
 const sqlite3 = require('sqlite3').verbose()
+
+const startDB = (db = null) => {
+    if(db === null) return false
+    const players = [
+        'uid INTEGER PRIMARY KEY',
+        'name TEXT NOT NULL',
+        'power TEXT',
+        'kills TEXT',
+        'modern_kills TEXT',
+        'atp TEXT',
+        'lost TEXT',
+        'collected TEXT',
+        'assisted TEXT',
+        'image TEXT',
+        'additional TEXT',
+        'reviewed INTEGER DEFAULT 0',
+        'created TEXT NOT NULL',
+        'updated TEXT'
+    ]
     
-const sqlLite = (better = false) => {
-
-    if(better === true) return require('/db')
-    if(better == 'sync') return require('sqlite-sync-itf').connect(DATABASE_FILE)
-
-    const db = new sqlite3.Database(DATABASE_FILE, (err) => {
-        if (err) {
-          return console.error(err.message);
-        }
-    })
-
-    db.run(`CREATE TABLE IF NOT EXISTS players 
-        (   
-            uid INTEGER PRIMARY KEY, 
-            name TEXT NOT NULL, 
-            power TEXT, 
-            kills TEXT, 
-            mkills TEXT,
-            atp TEXT, 
-            lost TEXT, 
-            collected TEXT, 
-            contributions TEXT, 
-            assists TEXT,
-            image TEXT,
-            aditional TEXT
-        ) 
-    `)
     db.run(`
-        CREATE TABLE IF NOT EXISTS players_alliances 
-        (
-            uid INTEGER NOT NULL, 
-            name TEXT NOT NULL,
-            FOREIGN KEY (uid)
-                REFERENCES players (uid) 
-        )
+        CREATE TABLE IF NOT EXISTS players 
+        (  ${players.join(',')} ) 
     `)
-    db.run(`
-        CREATE TABLE IF NOT EXISTS tasks 
-        (
-            filename TEXT NOT NULL,
-            state TEXT NOT NULL,
-            date    
-        )`
-    )
 
+    const images = [ 
+        'id INTEGER PRIMARY KEY',
+        'filepath TEXT NOT NULL',
+        'processed TEXT',
+        'data TEXT', // json data
+        'raw TEXT', // string data
+        'created TEXT NOT NULL',
+        'updated TEXT'
+    ]
+
+    db.run(`
+        CREATE TABLE IF NOT EXISTS images
+        ( ${images.join(',')} )
+    `)
+}
+    
+const sqlLite = (mod = false) => {
+    let db = null
+    switch(mod) {
+        case true: 
+            db = require('/db') // better sqlite module
+            break
+        case 'sync': 
+            db = require('sqlite-sync-itf').connect(DATABASE_FILE) 
+            break
+        default: 
+            db = new sqlite3.Database(DATABASE_FILE, (err) => {
+                if (err) return console.error(err.message)
+            })
+            startDB(db)
+    }
     return db
 }
- 
+
 export default sqlLite

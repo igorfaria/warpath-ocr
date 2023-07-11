@@ -7,16 +7,13 @@ import HomeIcon from './components/icons/HomeIcon'
 import UploadIcon from './components/icons/UploadIcon'
 import NextIcon from './components/icons/NextIcon'
 
-
 export default function Home() {
-
-
   const [users, setUsers] = useState([])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect( () => {
     try {
-      axios.get('/api/users?list=1').then( v=> {
+      axios.get('/api/users?list=1').then( v => {
         setUsers(v.data)
       })
     } catch (err) {
@@ -30,14 +27,19 @@ export default function Home() {
   }
 
   const goHome = () => {
-      alert('You are already in homepage, I need to find some other function for this button lol')
+      return false
   }
 
   const goReview = () => {
-      alert('Go review')
+      window.location = '/review'
   }
 
   const navItems = [
+      {
+          label: 'Review',
+          onClick: goReview,
+          icon: NextIcon()
+      },
       { 
           label: 'Home',
           onClick: goHome,
@@ -47,12 +49,8 @@ export default function Home() {
           label: 'Upload',
           onClick: uploadButton,
           icon: UploadIcon()
-      },
-      {
-          label: 'Review',
-          onClick: goReview,
-          icon: NextIcon()
       }
+      
   ]
   
   return (
@@ -61,9 +59,20 @@ export default function Home() {
       <section key='title' className='container mb-10'>
       <h1><span className='page-title'>WARPATH</span> <span className='page-title'>LOL</span></h1>
       </section>
-      <div className='container-scroll'>
+      {typeof users == 'object' && 'nothing' in users 
+      ? (
+        <div>
+        <h1><code className='page-title'>Oh nooo :(</code></h1>
+        <p className='mt-5'>Daaang, there are no players to present at the moment</p>
+        </div>
+        )
+      : (
+        <div className='container-scroll'>
           <TableUsers users={users} />
-      </div>
+        </div>
+      )
+    }
+      
     </main>
   )
 }

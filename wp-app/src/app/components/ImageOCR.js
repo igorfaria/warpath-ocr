@@ -148,14 +148,14 @@ const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitFor
 			}
 			
 					
-			let contributed = row_text.match(/contributions.+?\s?(?<contributed>[\.\d+]+)(?<unit>[kmb]+)/i)
+			let contributed = row_text.match(/contributed.+?\s?(?<contributed>[\.\d+]+)(?<unit>[kmb]+)/i)
 			if(contributed && 'groups' in contributed && 'contributed' in contributed.groups) {
 				contributed = parseFloat(contributed.groups.contributed) + ('unit' in contributed.groups ? contributed.groups.unit.toUpperCase() : 'K')
 			} else {
 				contributed = 0
 			}
 							
-			let assisted = row_text.match(/assists.+?\s?(?<assisted>[\.\d+]+)(?<unit>[kmb]+)/i)
+			let assisted = row_text.match(/assisted.+?\s?(?<assisted>[\.\d+]+)(?<unit>[kmb]+)/i)
 			if(assisted && 'groups' in assisted && 'assisted' in assisted.groups) {
 				assisted = parseFloat(assisted.groups.assisted) + ('unit' in assisted.groups ? assisted.groups.unit.toUpperCase() : 'K')
 			} else {
@@ -167,9 +167,9 @@ const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitFor
 				'atp': atp,
 				'lost': lost,
 				'collected': collected,
-				'contributions': contributed,
-				'assists': assisted,
-				'aditional': filename,
+				'contributed': contributed,
+				'assisted': assisted,
+				'additional': filename,
 			}
 
 		}
@@ -179,10 +179,10 @@ const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitFor
    
 		let new_name = filename.split('/')
 			new_name = new_name[new_name.length - 1]
-			new_name = `./public/images/proccessed/_${new_name}`
-			await image.write(new_name)
+			new_name = `./public/images/processed/_${new_name}`
+			image.write(new_name)
 
-		arr_fmt.proccessed = new_name	
+		arr_fmt.processed = new_name	
 
 		await worker.terminate();
 		arr_fmt.text = txt_content.join('\n').replace(/([\"\t]+)/g,'')

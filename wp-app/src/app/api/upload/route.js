@@ -1,15 +1,21 @@
 import fs from 'fs'
 import { NextResponse } from 'next/server'
+import Player from '@/app/components/Player'
 
 export async function POST(req) {
-  const formData = await req.formData();
-  const formDataEntryValues = Array.from(formData.values());
+  let response = []
+  const formData = await req.formData()
+  const formDataEntryValues = Array.from(formData.values())
   for (const formDataEntryValue of formDataEntryValues) {
     if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
-      const file = formDataEntryValue;
-      const buffer = Buffer.from(await file.arrayBuffer());
-      fs.writeFileSync(`public/images/${file.name}`, buffer);
+      const file = formDataEntryValue
+      const buffer = Buffer.from(await file.arrayBuffer())
+      const image_path = `public/images/${file.name}`
+      fs.writeFileSync(image_path, buffer)
+      response.push(image_path)
+      await (new Player).processImage(image_path)   
     }
   }
-  return NextResponse.json({ success: true });
+  
+  return NextResponse.json({ response: response })
 }

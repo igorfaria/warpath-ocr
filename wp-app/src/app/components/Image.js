@@ -1,17 +1,17 @@
 import React from 'react'
 
 export default class Image extends React.Component {
-    constructor(props) {
-      super(props);
+    constructor(props = {}) {
       this.state = {
         id: null,
         path: '',
-        proccessed: '',
+        processed: '',
         data: {},
         raw: '',
         created: null,
         updated: null
       }
+      this.state = {...this.state, ...props}
     }
   
 

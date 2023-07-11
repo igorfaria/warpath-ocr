@@ -23,6 +23,9 @@
   --delete-color: #c76565;
 }
 
+.font-brother1816 {
+    letter-spacing: -1px;
+}
   /* Firefox */
 * {
   scrollbar-width: auto;
@@ -63,6 +66,14 @@ body {
 
 .table-user td {
   padding: 5px;
+  letter-spacing: 0;
+  font-family: ui-monospace, monospace;
+  font-size: 1.03rem;
+}
+
+.table-user tr:not(.table-header) td:nth-child(3) {
+    font-size: 1.04rem;
+    font-weight: 600;
 }
 
 .table-user tr {
@@ -108,16 +119,29 @@ body {
   font-weight: bold;
   display: inline-block;
   margin-right: 3px;
+  letter-spacing: -4px;
+}
+
+.page-title {
+    font-family: var(--bolder-font);
 }
 
 .page-title::first-letter {
   color: var(--primary-color);
   font-family: var(--bolder-font);
   font-size: 3rem;
+  margin-right: -.3rem;
+  display: inline-block;
 }
 
 .page-title code {
   font-size: 1.6rem;
+  letter-spacing: 0;
+}
+
+
+.page-title:has(code)::first-letter {
+    font-size: 2rem;
 }
 
 .click-here {
@@ -127,7 +151,7 @@ body {
   gap: .4rem;
 }
 
-.click-here.primary {
+.primary {
   color: var(--primary-color);
 }
 

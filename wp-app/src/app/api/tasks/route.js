@@ -25,9 +25,6 @@ export async function GET(req) {
 
     // Search if exists by uid
     db.get('SELECT uid FROM players WHERE uid = ?', [data.uid], (err, row) => {
-      if (err) {
-        // console.error(err.message)
-      }
       if (typeof row == 'undefined' || ! 'uid' in row) {
         db.run(`
         INSERT INTO players 
@@ -41,21 +38,18 @@ export async function GET(req) {
           '${data.image}'
         )
         `)
-        // console.log('INSERT PLAYER', data.name)
       } else {
         if (typeof row != 'undefined' && 'uid' in row) {
-          db.run(`
-          UPDATE players 
-          SET
-            name = '${data.name}',
-            power = '${data.power}',
-            kills = '${data.kills}',
-            mkills = '${data.modern_kills}',
-            image = '${data.image}'
-          WHERE uid = '${row.uid}'
-          `)
+          const sets = []
+          if(data.power) sets.push(`power = '${data.power}'`)
+          if(data.kills) sets.push(`kills = '${data.kills}'`)
+          if(data.modern_kills) sets.push(`mkills = '${data.modern_kills}'`)
+          if(data.image) sets.push(`image = '${data.image}'`)
+          const s_sets = sets.length ? sets.join(',') : false
+          if(s_sets){
+            db.run(` UPDATE players SET ${s_sets} WHERE uid = '${row.uid}'`)
+          }
         }
-        // console.log("UPDATE BASIC INFO PLAYER", data.name)
       }
     })
 
@@ -93,7 +87,6 @@ export async function GET(req) {
       name LIKE '%${LneTo1}%'
       OR
       name LIKE '%${remove_begin}%'
-      
       OR
       name LIKE '%${remove_end}%'
       OR
@@ -105,33 +98,24 @@ export async function GET(req) {
     )
     LIMIT 1
     `, [], (err, row) => {
-      if (err) {
-        // console.error(err.message)
-      }
       if (row && 'uid' in row) {
-        db.run(`
-            UPDATE players 
-            SET
-             atp = '${data.atp}',
-             lost = '${data.lost}',
-             collected = '${data.collected}',
-             contributions = '${data.contributions}',
-             assists = '${data.assists}',
-             aditional = '${data.aditional}'
-          WHERE uid = '${row.uid}'
-          `)
-        // console.log("UPDATE ADDITIONAL INFO PLAYER", data.name)
-      } else {
-        // console.log('ADITIONAL FALSE: ', data.name, data)
+        const sets = []
+        if(data.atp) sets.push(`atp = '${data.atp}'`)
+        if(data.collected) sets.push(`collected = '${data.collected}'`)
+        if(data.contributions) sets.push(`contributions = '${data.contributions}'`)
+        if(data.assists) sets.push(`assists = '${data.assists}'`)
+        if(data.aditional) sets.push(`aditional = '${data.aditional}'`)
+        const s_sets = sets.length ? sets.join(',') : false
+        if(s_sets) {
+          db.run(`UPDATE players SET ${s_sets} WHERE uid = '${row.uid}'`)
+        }
       }
     })
   }
 
   const asyncProccess = data => {
-    if (typeof data != 'object') {
-      // console.error('data variable its not a object', typeof data, data)
-      return false
-    }
+    if (typeof data != 'object') return false
+    
     const value = data
     if ('uid' in value) {
       insertOrUpdate(value)

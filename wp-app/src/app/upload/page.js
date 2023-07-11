@@ -11,8 +11,12 @@ export default function Upload() {
         if(frm) {
             frm.querySelector('#uploadButton')?.click()
         } else {
-            frm = document.querySelector('#uploadForm')
-            frm.querySelector('input[type=file]')?.click()
+            try {
+                frm = document.querySelector('#uploadForm')
+                frm.querySelector('input[type=file]')?.click()
+            } catch (err) {
+                window.location = '/upload'
+            }
         }
     }
 

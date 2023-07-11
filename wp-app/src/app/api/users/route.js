@@ -4,7 +4,9 @@ import Users from '../../components/Users'
 export async function GET( req ) {
     const { searchParams } = new URL(req.url)
     const list = searchParams.get('list')
-    if(list == null) return NextResponse.json([{'nothing': 'here'}])
-    return NextResponse.json(Users())
+    const nothing_here = {'nothing': 'here'}
+    if(list == null) return NextResponse.json(nothing_here)
+    const users = Users()
+    return NextResponse.json(users && users.length ? users : nothing_here)
 }
 
