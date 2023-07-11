@@ -1,4 +1,10 @@
-{
+{ 
+
+  "scripts": {
+    "build": "wp-app/ next build",
+    "start": "wp-app/ next start",
+    "lint": "wp-app/ next lint"
+  },
   "dependencies": {
     "rxdb": "^14.14.1"
   }
