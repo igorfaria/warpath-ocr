@@ -1,10 +1,10 @@
 import sqlLite from './sqlLite'
 import ImageOCR from './ImageOCR'
 import moment from 'moment'
+import Image from './Image'
 
 export default class Player  {
     constructor(props = {}) {
-    
       this.state = {
         uid: null,
         name: '',
@@ -22,56 +22,77 @@ export default class Player  {
         updated: null
       }
       this.state = {...this.state, ...props}
+      this.db = sqlLite()
+    }
+    
+    destructor() {
+        this.db.close()
     }
     
     processImage = async (filepath) => {
       const data = await ImageOCR(filepath)
       if(typeof data == 'object'){
-        if ('uid' in data) {
-          this.insertOrUpdate(data)
-        } else {
-          this.insertOrUpdateData(data)
+        // stores image's info
+        const insertImage = (new Image()).insert({
+          filepath: filepath,
+          processed: data.processed,
+          data: data,
+          raw: data.text
+        })
+        // proceed with player things
+        if(insertImage) {
+            if ('uid' in data) {
+                this.insertOrUpdate(data)
+            } else {
+                this.insertOrUpdateData(data)
+            }
         }
+        return true // :D ?
       }
       return false
     }
 
     insertOrUpdate = (data) => {
       if (! 'uid' in data) return false
-      const db = sqlLite()
       // Search if exists by uid
-      db.get('SELECT uid FROM players WHERE uid = ?', [data.uid], (err, row) => {
+      this.db.serialize( () => {
+      this.db.get('SELECT uid FROM players WHERE uid = ' + data.uid, (err, row) => {
         if (typeof row == 'undefined' || ! 'uid' in row) {
-          db.run(`
-          INSERT INTO players 
-            (uid, name, power, kills, modern_kills, image, created)
-          VALUES( 
-            '${data.uid}',
-            '${data.name}',
-            '${data.power}',
-            '${data.kills}',
-            '${data.modern_kills}',
-            '${data.image}',
-            '${moment().format('YYYY-MM-DD HH:mm:ss')}'
-          )
-          `)
-            
+          this.db.serialize( () => {
+            this.db.run(`
+            INSERT INTO players 
+              (uid, name, power, kills, modern_kills, image, created)
+            VALUES(?,?,?,?,?,?,?)
+            `, [
+                data.uid,
+                data.name,
+                data.power,
+                data.kills,
+                data.modern_kills,
+                data.image,
+                moment().format('YYYY-MM-DD HH:mm:ss')
+              ])
+          })
         } else {
           if (typeof row != 'undefined' && 'uid' in row) {
-            const sets = []
-            if(data.power) sets.push(`power = '${data.power}'`)
-            if(data.kills) sets.push(`kills = '${data.kills}'`)
-            if(data.modern_kills) sets.push(`modern_kills = '${data.modern_kills}'`)
-            if(data.image) sets.push(`image = '${data.image}'`)
-            let s_sets = sets.length ? sets.join(',') : false
-            if(s_sets){
-              s_sets = `${s_sets}, updated = '${moment().format('YYYY-MM-DD H:i:s')}'`
-              db.run(` UPDATE players SET ${s_sets} WHERE uid = '${row.uid}'`)
-            }
+            this.db.serialize( () => {
+              this.db.run(`
+                UPDATE players 
+                  SET power=?, kills=?, modern_kills=?, image=?, updated=? 
+                  WHERE uid = ?`, 
+                  [
+                    data.power,
+                    data.kills,
+                    data.modern_kills,
+                    data.image,
+                    moment().format('YYYY-MM-DD HH:mm:ss'),
+                    row.uid
+                  ])
+            })
           }
-        }
+        }      
       })
-      db.close()
+      })
     }
 
     insertOrUpdateData = (data) => {
@@ -91,50 +112,53 @@ export default class Player  {
       const wild = name.replace(/([\.\~\-\=\_\(\)\{\}\/]+)/g, '%').trim()
       const remove_begin = data.name.slice(4, -2).trim()
       const remove_end = data.name.slice(0, -4).trim()
-  
-      const db = sqlLite()
-      db.get(`SELECT uid FROM players WHERE 
-      ( 
-        name LIKE '${name}'
-        OR
-        name LIKE '${ZeroToO}~'
-        OR
-        name LIKE '${OToZero}~'
-        OR
-        name LIKE '%${OneToI}%'
-        OR
-        name LIKE '%${OneToL}%'
-        OR
-        name LIKE '%${LneTo1}%'
-        OR
-        name LIKE '%${remove_begin}%'
-        OR
-        name LIKE '%${remove_end}%'
-        OR
-        name LIKE '%${sliced_name}%'
-        OR
-        name LIKE '~${sliced_name}~'
-        OR
-        name LIKE '%${wild}%'
-      )
-      LIMIT 1
-      `, [], (err, row) => {
-        if (row && 'uid' in row) {
-          const sets = []
-          if(data.atp) sets.push(`atp = '${data.atp}'`)
-          if(data.collected) sets.push(`collected = '${data.collected}'`)
-          if(data.contributed) sets.push(`contributed = '${data.contributed}'`)
-          if(data.assisted) sets.push(`assisted = '${data.assisted}'`)
-          if(data.additional) sets.push(`additional = '${data.additional}'`)
-
-          let s_sets = sets.length ? sets.join(',') : false
-          if(s_sets) {
-            s_sets = `${s_sets}, updated = '${moment().format('YYYY-MM-DD H:i:s')}'`
-            db.run(`UPDATE players SET ${s_sets} WHERE uid = '${row.uid}'`)
-          }
-        }
+      
+      this.db.serialize( () => {
+        this.db.get(`SELECT uid FROM players WHERE 
+        ( 
+          name LIKE '${name}'
+          OR
+          name LIKE '${ZeroToO}~'
+          OR
+          name LIKE '${OToZero}~'
+          OR
+          name LIKE '%${OneToI}%'
+          OR
+          name LIKE '%${OneToL}%'
+          OR
+          name LIKE '%${LneTo1}%'
+          OR
+          name LIKE '%${remove_begin}%'
+          OR
+          name LIKE '%${remove_end}%'
+          OR
+          name LIKE '%${sliced_name}%'
+          OR
+          name LIKE '~${sliced_name}~'
+          OR
+          name LIKE '%${wild}%'
+        )
+        LIMIT 1
+        `, [], (err, row) => {
+          if (row && 'uid' in row) {
+              this.db.serialize( () => {
+                  this.db.run(`UPDATE players 
+                    SET 
+                      atp = ?, collected = ?, contributed = ?, assisted = ?, additional = ?, updated = ?
+                    WHERE uid = ?`, 
+                    [
+                      data.atp,
+                      data.collected,
+                      data.contributed,
+                      data.assisted,
+                      data.additional,
+                      moment().format('YYYY-MM-DD H:i:s'),
+                      row.uid,
+                    ])
+                  })
+            }
+        })
       })
-      db.close()
     }
   
     render() {

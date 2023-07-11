@@ -10,6 +10,8 @@ import NextIcon from './components/icons/NextIcon'
 export default function Home() {
   const [users, setUsers] = useState([])
 
+  
+  
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect( () => {
     try {
@@ -22,32 +24,20 @@ export default function Home() {
   })
   
 
-  const uploadButton = () => {
-     window.location = '/upload'
-  }
-
-  const goHome = () => {
-      return false
-  }
-
-  const goReview = () => {
-      window.location = '/review'
-  }
-
   const navItems = [
       {
           label: 'Review',
-          onClick: goReview,
+          onClick: () => window.location = '/review',
           icon: NextIcon()
       },
       { 
           label: 'Home',
-          onClick: goHome,
+          onClick: () => false,
           icon: HomeIcon()
       },
       {
           label: 'Upload',
-          onClick: uploadButton,
+          onClick: () => window.location = '/upload',
           icon: UploadIcon()
       }
       
@@ -62,7 +52,7 @@ export default function Home() {
       {typeof users == 'object' && 'nothing' in users 
       ? (
         <div>
-        <h1><code className='page-title'>Oh nooo :(</code></h1>
+        <h1 className='page-title'><code>Oh nooo :(</code></h1>
         <p className='mt-5'>Daaang, there are no players to present at the moment</p>
         </div>
         )

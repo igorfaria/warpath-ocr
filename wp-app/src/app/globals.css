@@ -24,7 +24,7 @@
 }
 
 .font-brother1816 {
-    letter-spacing: -1px;
+    letter-spacing: 0;
 }
   /* Firefox */
 * {
@@ -119,7 +119,7 @@ body {
   font-weight: bold;
   display: inline-block;
   margin-right: 3px;
-  letter-spacing: -4px;
+  letter-spacing: -2px;
 }
 
 .page-title {
@@ -130,13 +130,21 @@ body {
   color: var(--primary-color);
   font-family: var(--bolder-font);
   font-size: 3rem;
-  margin-right: -.3rem;
+  margin-right: -.005rem;
   display: inline-block;
 }
 
+span.page-title::first-letter {
+  margin-right: -0.5rem;
+}
+
 .page-title code {
-  font-size: 1.6rem;
-  letter-spacing: 0;
+  font-size: 2rem;
+  letter-spacing: -1px;
+}
+
+.page-title span {
+  letter-spacing: .1rem;
 }
 
 

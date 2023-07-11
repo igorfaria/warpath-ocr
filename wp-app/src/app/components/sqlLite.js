@@ -15,6 +15,7 @@ const startDB = (db = null) => {
         'atp TEXT',
         'lost TEXT',
         'collected TEXT',
+        'contributed TEXT',
         'assisted TEXT',
         'image TEXT',
         'additional TEXT',

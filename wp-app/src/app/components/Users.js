@@ -1,8 +1,7 @@
-import sqlLite from './sqlLite'
 const Users = () => {
     const db = require('/db')
     try {
-        const statement = db.prepare('SELECT * FROM players')
+        const statement = db.prepare('SELECT * FROM players ORDER BY name')
         const users = statement.all()
         return users
     } catch (error) {

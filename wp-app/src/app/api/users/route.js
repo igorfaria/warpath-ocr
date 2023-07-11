@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import Users from '../../components/Users'
+//import sqlLite from '../../components/sqlLite'
 
 export async function GET( req ) {
     const { searchParams } = new URL(req.url)
@@ -9,4 +10,3 @@ export async function GET( req ) {
     const users = Users()
     return NextResponse.json(users && users.length ? users : nothing_here)
 }
-

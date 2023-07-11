@@ -23,26 +23,37 @@ const FileUploadForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+      
+        const chunks = ArrayChunks(images, 2)
         let counter = 0;
         
-        const chunks = ArrayChunks(images, 2)
-
         chunks.forEach( chunk => {
           chunk.forEach( async image => {
             const formData = new FormData()
             formData.append(image.name, image)
-          
-            const { data } = await axiosQueue.post('/api/upload', formData)
-          
-            counter++
 
-            setUploading(
-              {
-                'count': counter, 
-                'total': images.length, 
-                'response': data.response
-              }
-            )
+            if(counter == 0) {
+              setUploading(
+                {
+                  'count': counter + 1, 
+                  'total': images.length, 
+                  'response': 'starting'
+                }
+              )
+            }
+         
+            const axios = /*await*/ axiosQueue.post('/api/upload', formData)
+            axios.then( ({data}) => {
+              counter++
+              setUploading(
+                  {
+                    'count': counter + 1, 
+                    'total': images.length, 
+                    'response': data.response
+                  }
+                )
+            })
+        
         })
       })
         
@@ -58,7 +69,7 @@ const FileUploadForm = () => {
     }
 
     if( typeof uploading == 'object' && 'count' in uploading) {
-      if(uploading.count >= uploading.total){
+      if(uploading.count > images.length){
         return (<div>
             <div className='page-title'>Completed \o/</div>
             <br /><br /><br />
@@ -79,7 +90,7 @@ const FileUploadForm = () => {
     }
 
   
-
+    // <ImagePreview images={images} onRemove={onRemove} />
     return (
       <form id='uploadForm' className="w-full" onSubmit={handleSubmit}>
         <div className="flex justify-between columns-2 mb-10 file-shadow">
@@ -99,7 +110,6 @@ const FileUploadForm = () => {
             {UploadIcon()} Upload
             </button>
         </div>
-        <ImagePreview images={images} onRemove={onRemove} />
       </form>
     );
   };

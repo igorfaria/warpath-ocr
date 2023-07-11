@@ -1,21 +1,6 @@
 
 import Jimp from 'jimp'
-import { createWorker } from 'tesseract.js'
-import fs from 'fs'
-import { off } from 'process'
-
-// Append text to a file
-const appendToFile = (obj) => {
-	const filename = './dataJSON.js'
-	fs.appendFile(filename, JSON.stringify(obj, null, 4) + ', ', (err) => {
-		if (err) {
-			console.error('Error appending text to file:', err);
-		} else {
-			console.log('Text appended to file successfully.');
-		}
-	})
-
-  }
+import { createWorker } from 'tesseract.js' 
 
 const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitForIt = false) => {
 	if (!filename) return false
@@ -36,11 +21,6 @@ const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitFor
 
 		const image = await Jimp.read(filename)
 
-		/*
-		image.contrast(0.2)
-		image.threshold({ max: 130, replace: 180, autoGreyscale: false })
-		image.normalize()
-		*/
 		image.contrast(0.2)
 		image.threshold({ max: 130, replace: 200, autoGreyscale: false })
 		image.normalize()
@@ -72,7 +52,7 @@ const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitFor
 
 		let is_front_profile = false
 		txt_content.map((item, idx) => {
-			if (!is_front_profile && item.match(/online id/gi)) {
+			if (!is_front_profile && item.match(/online/gi)) {
 				is_front_profile = true
 			}
 			return
@@ -186,7 +166,7 @@ const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitFor
 
 		await worker.terminate();
 		arr_fmt.text = txt_content.join('\n').replace(/([\"\t]+)/g,'')
-		//appendToFile(arr_fmt)
+		
 		return arr_fmt
 	}
 
