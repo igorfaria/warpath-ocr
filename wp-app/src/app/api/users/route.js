@@ -7,6 +7,11 @@ export async function GET( req ) {
     const list = searchParams.get('list')
     const nothing_here = {'nothing': 'here'}
     if(list == null) return NextResponse.json(nothing_here)
-    const users = Users()
+    let users = false
+    try {
+    users = Users()
+    } catch ( e ) {
+    users = false
+}
     return NextResponse.json(users && users.length ? users : nothing_here)
 }
