@@ -12,6 +12,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/material": "^5.13.7",
+    "@vercel/postgres": "^0.4.0",
     "autoprefixer": "10.4.14",
     "axios": "^1.4.0",
     "better-sqlite3": "^8.4.0",

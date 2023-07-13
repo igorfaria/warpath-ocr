@@ -1,5 +1,5 @@
 import moment from 'moment'
-import sqlLite from './sqlLite'
+import { sql } from '@vercel/postgres'
 
 export default class Image  {
     constructor(props = {}) {
@@ -13,15 +13,6 @@ export default class Image  {
         updated: null
       }
       this.state = {...this.state, ...props}
-      this.db = sqlLite()
-    }
-
-    destructor(){
-        try {
-          this.db.close()
-        } catch (e) {
-          console.log(e)
-        }
     }
 
     insert = async (data) => {
@@ -32,28 +23,14 @@ export default class Image  {
       
       if(data.filepath.length == 0) return false
 
-      const values = [
-          data.filepath,
-          data.processed,
-          JSON.stringify(data.data),
-          data.raw,
-          data.created
-      ]   
-      
       try {
-        const query = `
-          INSERT INTO images (filepath, processed, data, raw, created)
-          VALUES (?,?,?,?,?)
-        `
-        this.db.serialize( () => {
-          this.db.run(query, values)
-        })
-        this.db.close()
-        return true
+        const query = await sql`INSERT INTO images 
+        (filepath, processed, data, raw, created) 
+        VALUES (${data.filepath},${data.processed},${JSON.stringify(data.data)},${data.raw},${data.created})`
+        return query
       } catch (err) {
-          console.log(err, values)
+          console.log(err)
       }
-      this.db.close()
       return false
     }
   

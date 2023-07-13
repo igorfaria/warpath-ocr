@@ -20,18 +20,13 @@ export default function Upload() {
         }
     }
 
-    const goHome = () => {
-        window.location = '/'
-    }
-
-    const goReview = () => {
-        alert('Go review')
-    }
 
     const navItems = [
         { 
             label: 'Home',
-            onClick: goHome,
+            onClick: () => {
+                window.location = '/'
+            },
             icon: HomeIcon()
         },
         {
@@ -41,7 +36,9 @@ export default function Upload() {
         },
         {
             label: 'Review',
-            onClick: goReview,
+            onClick: () => {
+                window.location = '/review'
+            },
             icon: NextIcon()
         }
     ]

@@ -42,9 +42,9 @@ const FileUploadForm = () => {
               )
             }
          
-            const axios = /*await*/ axiosQueue.post('/api/upload', formData)
-            axios.then( ({data}) => {
-              counter++
+            const { data } = await axiosQueue.post('/api/upload', formData)
+            
+            //axios.then( ({data}) => {
               setUploading(
                   {
                     'count': counter + 1, 
@@ -52,7 +52,8 @@ const FileUploadForm = () => {
                     'response': data.response
                   }
                 )
-            })
+            //})
+            counter++
         
         })
       })
@@ -89,6 +90,10 @@ const FileUploadForm = () => {
       }
     }
 
+    const submitForm = () => {
+      const button = document.querySelector("#uploadForm button[type='submit']")
+      if(button) button?.click()
+    }
   
     // <ImagePreview images={images} onRemove={onRemove} />
     return (
@@ -110,6 +115,9 @@ const FileUploadForm = () => {
             {UploadIcon()} Upload
             </button>
         </div>
+        <div className='mt-10 flex flex-col'>
+            {(typeof images == 'object' && images.length) ? (<><h1 className="page-title">UHUUUL \o/</h1><p className="page-title"><code>{images.length} selected files :D</code></p><p>Continue the upload by clicking on the <span className='primary-color bolder_font cursor-pointer' onClick={submitForm}>Upload</span> button (:</p></>) : ''}
+            </div>
       </form>
     );
   };

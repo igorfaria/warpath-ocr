@@ -1,4 +1,4 @@
-import sqlLite from './sqlLite'
+import { sql, VercelPool } from '@vercel/postgres'
 import ImageOCR from './ImageOCR'
 import moment from 'moment'
 import Image from './Image'
@@ -18,33 +18,40 @@ export default class Player  {
         assisted: 0,
         iprofile: 0,
         istats: 0,
-        created: null,
+        created: moment().format('YYYY-MM-DD HH:mm:ss'),
         updated: null
       }
       this.state = {...this.state, ...props}
-      this.db = sqlLite()
-    }
-    
-    destructor() {
-        this.db.close()
     }
     
     processImage = async (filepath) => {
       const data = await ImageOCR(filepath)
       if(typeof data == 'object'){
         // stores image's info
-        const insertImage = (new Image()).insert({
+        const insertImage = await (new Image()).insert({
           filepath: filepath,
           processed: data.processed,
           data: data,
           raw: data.text
         })
         // proceed with player things
-        if(insertImage) {
+       // console.log('Image', insertImage)     
+        if(true || insertImage) {  
+
+           // console.log('Image inserted on DB:',filepath)
+          //  console.log('Image data:', data)
             if ('uid' in data) {
-                this.insertOrUpdate(data)
+                let result = await this.insertOrUpdate(data) 
+                console.log('Entered INSERT', data.name, result)
+                if(result) {
+                  console.log('Player inserted on DB', data)
+                }
             } else {
-                this.insertOrUpdateData(data)
+                let result = await this.insertOrUpdateData(data)
+                console.log('Entered on UPDATE', data.name, result)
+                if(result) {
+                  console.log('Player updated on DB', data) 
+                }
             }
         }
         return true // :D ?
@@ -52,50 +59,34 @@ export default class Player  {
       return false
     }
 
-    insertOrUpdate = (data) => {
-      if (! 'uid' in data) return false
+    insertOrUpdate = async (data) => {
+      if (! 'uid' in data) return -1
       // Search if exists by uid
-      this.db.serialize( () => {
-      this.db.get('SELECT uid FROM players WHERE uid = ' + data.uid, (err, row) => {
-        if (typeof row == 'undefined' || ! 'uid' in row) {
-          this.db.serialize( () => {
-            this.db.run(`
-            INSERT INTO players 
-              (uid, name, power, kills, modern_kills, image, created)
-            VALUES(?,?,?,?,?,?,?)
-            `, [
-                data.uid,
-                data.name,
-                data.power,
-                data.kills,
-                data.modern_kills,
-                data.image,
-                moment().format('YYYY-MM-DD HH:mm:ss')
-              ])
-          })
-        } else {
+      const { rows } = await sql`SELECT uid FROM players WHERE uid BETWEEN ${data.uid - 1} AND ${data.uid + 1}`
+      console.log('rows', rows) 
+      if(typeof rows == 'object' && rows.length){ 
+        rows.map( async row => {
           if (typeof row != 'undefined' && 'uid' in row) {
-            this.db.serialize( () => {
-              this.db.run(`
-                UPDATE players 
-                  SET power=?, kills=?, modern_kills=?, image=?, updated=? 
-                  WHERE uid = ?`, 
-                  [
-                    data.power,
-                    data.kills,
-                    data.modern_kills,
-                    data.image,
-                    moment().format('YYYY-MM-DD HH:mm:ss'),
-                    row.uid
-                  ])
-            })
+              return await sql`UPDATE players 
+                  SET power=${data.power},kills=${data.kills},
+                  modern_kills=${data.modern_kills}, 
+                  image=${data.image},
+                  updated=${moment().format('YYYY-MM-DD HH:mm:ss')} 
+                  WHERE uid=${row.uid}`
           }
-        }      
-      })
-      })
+        })
+      } else {
+          let result = await sql `
+          INSERT INTO players 
+            (uid, name, power, kills, modern_kills, image, created)
+          VALUES(${data.uid},${data.name},${data.power},${data.kills},${data.modern_kills},${data.image},${this.state.created})`
+          console.log('Insert player info', result)
+          return result
+      }
+      return -2
     }
 
-    insertOrUpdateData = (data) => {
+    insertOrUpdateData = async (data) => {
       if (typeof data == 'undefined' || !'name' in data) return false
       
       // TRRRRY to search if exists by name
@@ -113,52 +104,40 @@ export default class Player  {
       const remove_begin = data.name.slice(4, -2).trim()
       const remove_end = data.name.slice(0, -4).trim()
       
-      this.db.serialize( () => {
-        this.db.get(`SELECT uid FROM players WHERE 
+      const {rows} = await sql`SELECT uid FROM players WHERE 
         ( 
-          name LIKE '${name}'
+          name LIKE ${name}
           OR
-          name LIKE '${ZeroToO}~'
+          name LIKE ${ZeroToO}
           OR
-          name LIKE '${OToZero}~'
+          name LIKE ${OToZero}
           OR
-          name LIKE '%${OneToI}%'
+          name LIKE ${OneToI}
           OR
-          name LIKE '%${OneToL}%'
+          name LIKE ${OneToL}
           OR
-          name LIKE '%${LneTo1}%'
+          name LIKE ${LneTo1}
           OR
-          name LIKE '%${remove_begin}%'
+          name LIKE ${remove_begin}
           OR
-          name LIKE '%${remove_end}%'
+          name LIKE ${remove_end}
           OR
-          name LIKE '%${sliced_name}%'
+          name LIKE ${sliced_name}
           OR
-          name LIKE '~${sliced_name}~'
-          OR
-          name LIKE '%${wild}%'
+          name LIKE ${wild}
         )
-        LIMIT 1
-        `, [], (err, row) => {
-          if (row && 'uid' in row) {
-              this.db.serialize( () => {
-                  this.db.run(`UPDATE players 
-                    SET 
-                      atp = ?, collected = ?, contributed = ?, assisted = ?, additional = ?, updated = ?
-                    WHERE uid = ?`, 
-                    [
-                      data.atp,
-                      data.collected,
-                      data.contributed,
-                      data.assisted,
-                      data.additional,
-                      moment().format('YYYY-MM-DD H:i:s'),
-                      row.uid,
-                    ])
-                  })
-            }
-        })
-      })
+        LIMIT 1`
+        
+      console.log('Search UID by name', rows)
+      if (rows && rows[0] && 'uid' in rows[0]) {
+          
+          return await sql`UPDATE players 
+            SET 
+              atp=${data.atp}, collected=${data.collected}, 
+              contributed=${data.contributed}, assisted=${data.assisted}, 
+              additional=${data.additional},updated=${moment().format('YYYY-MM-DD H:i:s')}
+            WHERE uid = ${rows[0].uid}`
+          }
     }
   
     render() {

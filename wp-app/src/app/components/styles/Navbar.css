@@ -47,12 +47,13 @@ body {
 }
 
 #navbar button label {
-    font-size: .7rem;
+    font-size: .85rem;
 }
 
 #navbar li:nth-of-type(2) button {
     font-family: var(--bolder-font);
-    background: var(--primary-color);
+    background: #fff;
+    color: var(--dark-color);
     padding: 15px;
     position: absolute;
     top: 0;

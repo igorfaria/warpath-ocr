@@ -26,6 +26,15 @@
 .font-brother1816 {
     letter-spacing: 0;
 }
+
+.regular_font {
+  font-family: var(--regular-font);
+}
+
+.bolder_font {
+  font-family: var(--bolder-font);
+}
+
   /* Firefox */
 * {
   scrollbar-width: auto;
@@ -55,6 +64,8 @@ body {
   background-size: cover;
   background-color: var(--dark-color);
   padding-bottom: 1rem;
+  font-size: 18px;
+  background-blend-mode: difference;
 }
 
 
@@ -86,7 +97,7 @@ body {
 
 .table-user tr.table-header {
   background: var(--dark-color);
-  font-size: 1rem;
+  font-size: 1.02rem;
   font-family: var(--bolder-font);
   color: rgb(var(--foreground-rgb));
 }
@@ -115,7 +126,7 @@ body {
 
 /******************/ 
 .page-title {
-  font-size: 2.3rem;
+  font-size: 3rem;
   font-weight: bold;
   display: inline-block;
   margin-right: 3px;
@@ -159,7 +170,7 @@ span.page-title::first-letter {
   gap: .4rem;
 }
 
-.primary {
+.primary, .primary-color {
   color: var(--primary-color);
 }
 

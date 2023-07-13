@@ -10,8 +10,6 @@ import NextIcon from './components/icons/NextIcon'
 export default function Home() {
   const [users, setUsers] = useState([])
 
-  
-  
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect( () => {
     try {
