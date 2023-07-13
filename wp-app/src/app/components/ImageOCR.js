@@ -1,4 +1,3 @@
-
 import Jimp from 'jimp'
 import { createWorker } from 'tesseract.js' 
 
@@ -157,9 +156,7 @@ const ImageOCR = async (filename, lang = 'por+eng', type = 'image/jpeg', waitFor
 		const font = await Jimp.loadFont('./node_modules/jimp/fonts/open-sans/open-sans-32-black/open-sans-32-black.fnt');
 		image.print(font, 50, height_part * .35, arr_fmt.name, width, height);
    
-		let new_name = filename.split('/')
-			new_name = new_name[new_name.length - 1]
-			new_name = `./public/images/processed/_${new_name}`
+		let new_name = filename.replace('images/', 'images/processed/_')
 			image.write(new_name)
 
 		arr_fmt.processed = new_name	

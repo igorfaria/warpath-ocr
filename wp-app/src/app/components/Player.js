@@ -1,4 +1,4 @@
-import { sql, VercelPool } from '@vercel/postgres'
+import { sql } from '@vercel/postgres'
 import ImageOCR from './ImageOCR'
 import moment from 'moment'
 import Image from './Image'
@@ -25,6 +25,7 @@ export default class Player  {
     }
     
     processImage = async (filepath) => {
+      console.log('processImage', filepath)
       const data = await ImageOCR(filepath)
       if(typeof data == 'object'){
         // stores image's info

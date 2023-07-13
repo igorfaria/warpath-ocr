@@ -70,7 +70,7 @@ const FileUploadForm = () => {
     }
 
     if( typeof uploading == 'object' && 'count' in uploading) {
-      if(uploading.count > images.length){
+      if(uploading.count >= images.length){
         return (<div>
             <div className='page-title'>Completed \o/</div>
             <br /><br /><br />
