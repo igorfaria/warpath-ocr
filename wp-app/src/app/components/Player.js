@@ -67,10 +67,10 @@ export default class Player  {
       if(typeof rows == 'object' && rows.length){ 
         rows.map( async row => {
           if (typeof row != 'undefined' && 'uid' in row) {
-              const data_power = parseFloat(data.power) > 0 ? parseFloat(data.power) : row.power
-              const data_kills = parseFloat(data.kills) > 0 ? parseFloat(data.kills) : row.kills
-              const data_modern_kills = parseFloat(data.modern_kills) > 0 ? parseFloat(data.modern_kills) : row.modern_kills
-              const data_image = parseFloat(data.image) > 0 ? parseFloat(data.image) : row.image
+              const data_power = parseFloat(data.power) > 0 ? data.power : row.power
+              const data_kills = parseFloat(data.kills) > 0 ? data.kills : row.kills
+              const data_modern_kills = parseFloat(data.modern_kills) > 0 ? data.modern_kills : row.modern_kills
+              const data_image = parseFloat(data.image) > 0 ? data.image : row.image
               return await sql`UPDATE players 
                   SET power=${data_power},kills=${data_kills},
                   modern_kills=${data_modern_kills}, 
@@ -137,13 +137,20 @@ export default class Player  {
         
       console.log('Search UID by name', rows)
       if (rows && rows[0] && 'uid' in rows[0]) {
+           const row = rows[0]
+           const data_atp = parseFloat(data.atp) > 0 ? data.atp : row.atp
+           const data_collected = parseFloat(data.collected) > 0 ? data.collected : row.collected
+           const data_assisted = parseFloat(data.assisted) > 0 ? data.assisted : row.assisted
+           const data_additional = parseFloat(data.additional) > 0 ? data.additional : row.additional
+           const data_contributed = parseFloat(data.contributed) > 0 ? data.contributed : row.contributed
+
           
           return await sql`UPDATE players 
             SET 
-              atp=${data.atp}, collected=${data.collected}, 
-              contributed=${data.contributed}, assisted=${data.assisted}, 
-              additional=${data.additional},updated=${moment().format('YYYY-MM-DD H:i:s')}
-            WHERE uid = ${rows[0].uid}`
+              atp=${data_atp}, collected=${data_collected}, 
+              contributed=${data_contributed}, assisted=${data_assisted}, 
+              additional=${data_additional},updated=${moment().format('YYYY-MM-DD H:i:s')}
+            WHERE uid = ${row.uid}`
           }
     }
   
