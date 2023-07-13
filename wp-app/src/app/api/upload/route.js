@@ -5,15 +5,15 @@ export async function POST(req) {
   let response = []
   const formData = await req.formData()
   const formDataEntryValues = Array.from(formData.values())
-
+  let image = new Image()
   for (const formDataEntryValue of formDataEntryValues) {
       if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
-        let image = new Image()
-        response.image = await image.save(formDataEntryValue)
-        console.log('Image on upload', response.image )
-        if('filepath' in response.image){
-          response.push(response.image)
-          response.player = response.image.player
+
+        image = await image.save(formDataEntryValue)
+        if('filepath' in image){
+          response.push(image.filepath)
+          response.player = image.player
+          window.image = image
         }
       console.log('Upload response', response)
     }
