@@ -10,7 +10,10 @@ export async function POST(req) {
     if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
       const file = formDataEntryValue
       const buffer = Buffer.from(await file.arrayBuffer())
-      const image_path = path.resolve(`images/${file.name}`)
+      
+      const image_path = path.resolve('./public', 'images', `images/${file.name}`);
+
+      
       fs.writeFileSync(image_path, buffer)
       response.push(image_path)
       response.player = await (new Player).processImage(image_path)
