@@ -10,7 +10,7 @@ export async function POST(req) {
       if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
         const image = new Image()
         if('filepath' in image){
-          response.image = image.save(formDataEntryValue)
+          response.image = await image.save(formDataEntryValue)
           response.push(response.image)
           response.player = image.player
       }
