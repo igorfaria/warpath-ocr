@@ -6,6 +6,8 @@ export async function POST(req) {
   let response = []
   const formData = await req.formData()
   const formDataEntryValues = Array.from(formData.values())
+  const path = require('path');
+
   for (const formDataEntryValue of formDataEntryValues) {
     if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
       const file = formDataEntryValue
