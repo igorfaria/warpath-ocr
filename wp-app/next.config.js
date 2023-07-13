@@ -10,6 +10,14 @@ const nextConfig = {
 
         return config;
     }*/
+    /*experimental: {
+        outputFileTracingRoot: path.join(__dirname, '../../'),
+        outputFileTracingExcludes: {
+          '*': [
+            'node_modules/canvas',
+          ],
+        },
+    }*/
 }    
 
 module.exports = nextConfig
