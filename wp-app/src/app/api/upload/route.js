@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server'
-import Player from '@/app/components/Player'
+import Image from '@/app/components/Image'
 
 export async function POST(req) {
   let response = []

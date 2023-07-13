@@ -1,6 +1,7 @@
 import moment from 'moment'
 import { sql } from '@vercel/postgres'
 import fs from 'fs'
+import Player from './Player'
 
 export default class Image  {
     constructor(props = {}) {
@@ -20,6 +21,7 @@ export default class Image  {
       const buffer = Buffer.from(await file.arrayBuffer())    
       const image_path = path.resolve('./public', 'images', `${file.name}`);
       fs.writeFileSync(image_path, buffer)
+      await (new Player()).processImage(image_path)
       return image_path
     }
 
