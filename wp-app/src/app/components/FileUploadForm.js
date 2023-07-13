@@ -35,7 +35,7 @@ const FileUploadForm = () => {
             if(counter == 0) {
               setUploading(
                 {
-                  'count': counter + 1, 
+                  'count': counter, 
                   'total': images.length, 
                   'response': 'starting'
                 }
@@ -47,7 +47,7 @@ const FileUploadForm = () => {
             //axios.then( ({data}) => {
               setUploading(
                   {
-                    'count': counter + 1, 
+                    'count': counter, 
                     'total': images.length, 
                     'response': data.response
                   }
@@ -62,9 +62,7 @@ const FileUploadForm = () => {
     
     const onRemove = (idx) => {
       if(confirm('Are you sure? :P')){
-        const removed = images.filter( (v,i) => {
-          return (i != idx)
-        })
+        const removed = images.filter( (v,i) =>  i != idx)
         setImages(removed)
       }
     }

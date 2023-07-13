@@ -36,11 +36,8 @@ export default class Player  {
           raw: data.text
         })
         // proceed with player things
-       // console.log('Image', insertImage)     
-        if(true || insertImage) {  
-
-           // console.log('Image inserted on DB:',filepath)
-          //  console.log('Image data:', data)
+        
+        if(true || insertImage) {
             if ('uid' in data) {
                 let result = await this.insertOrUpdate(data) 
                 console.log('Entered INSERT', data.name, result)

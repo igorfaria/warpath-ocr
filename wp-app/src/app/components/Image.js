@@ -18,14 +18,6 @@ export default class Image  {
       this.state = {...this.state, ...props}
     }
 
-    save = async (file) => {
-      const buffer = Buffer.from(await file.arrayBuffer())    
-      const image_path = path.resolve('./public', 'images', `${file.name}`);
-      fs.writeFileSync(image_path, buffer)
-      console.log('save', image_path)
-      const player = await (new Player()).processImage(image_path)
-      return {'filepath': image_path, 'player': player}
-    }
 
     insert = async (data) => {
       data = {
