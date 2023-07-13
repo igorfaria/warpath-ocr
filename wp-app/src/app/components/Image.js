@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { sql } from '@vercel/postgres'
+import fs from 'fs'
 
 export default class Image  {
     constructor(props = {}) {
@@ -13,6 +14,13 @@ export default class Image  {
         updated: null
       }
       this.state = {...this.state, ...props}
+    }
+
+    save = async (file) => {
+      const buffer = Buffer.from(await file.arrayBuffer())    
+      const image_path = path.resolve('./public', 'images', `${file.name}`);
+      fs.writeFileSync(image_path, buffer)
+      return image_path
     }
 
     insert = async (data) => {

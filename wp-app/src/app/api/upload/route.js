@@ -1,4 +1,3 @@
-import fs from 'fs'
 import { NextResponse } from 'next/server'
 import Player from '@/app/components/Player'
 
@@ -9,15 +8,10 @@ export async function POST(req) {
 
   for (const formDataEntryValue of formDataEntryValues) {
     if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
-      const file = formDataEntryValue
-      const buffer = Buffer.from(await file.arrayBuffer())
-      
-      const image_path = path.resolve('./public', 'images', `${file.name}`);
-
-      
-      fs.writeFileSync(image_path, buffer)
-      response.push(image_path)
-      response.player = await (new Player).processImage(image_path)
+      const image = new Image()
+      response.image = image.save(formDataEntryValue)
+      response.push(response.image)
+      response.player = await image.processImage(response.image)
       console.log('Upload response', response.player)
     }
   }
