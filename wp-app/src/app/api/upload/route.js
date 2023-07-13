@@ -13,7 +13,7 @@ export async function POST(req) {
       const file = formDataEntryValue
       const buffer = Buffer.from(await file.arrayBuffer())
       
-      const image_path = path.resolve('./public', 'images', `images/${file.name}`);
+      const image_path = path.resolve('./public', 'images', `${file.name}`);
 
       
       fs.writeFileSync(image_path, buffer)
