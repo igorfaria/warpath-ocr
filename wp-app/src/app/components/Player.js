@@ -62,15 +62,19 @@ export default class Player  {
     insertOrUpdate = async (data) => {
       if (! 'uid' in data) return -1
       // Search if exists by uid
-      const { rows } = await sql`SELECT uid FROM players WHERE uid BETWEEN ${data.uid - 1} AND ${data.uid + 1}`
-      console.log('rows', rows) 
+      const { rows } = await sql`SELECT * FROM players WHERE uid=${data.uid} LIMIT 1`
+      //console.log('rows', rows) 
       if(typeof rows == 'object' && rows.length){ 
         rows.map( async row => {
           if (typeof row != 'undefined' && 'uid' in row) {
+              const data_power = parseFloat(data.power) > 0 ? parseFloat(data.power) : row.power
+              const data_kills = parseFloat(data.kills) > 0 ? parseFloat(data.kills) : row.kills
+              const data_modern_kills = parseFloat(data.modern_kills) > 0 ? parseFloat(data.modern_kills) : row.modern_kills
+              const data_image = parseFloat(data.image) > 0 ? parseFloat(data.image) : row.image
               return await sql`UPDATE players 
-                  SET power=${data.power},kills=${data.kills},
-                  modern_kills=${data.modern_kills}, 
-                  image=${data.image},
+                  SET power=${data_power},kills=${data_kills},
+                  modern_kills=${data_modern_kills}, 
+                  image=${data_image},
                   updated=${moment().format('YYYY-MM-DD HH:mm:ss')} 
                   WHERE uid=${row.uid}`
           }
@@ -79,8 +83,9 @@ export default class Player  {
           let result = await sql `
           INSERT INTO players 
             (uid, name, power, kills, modern_kills, image, created)
-          VALUES(${data.uid},${data.name},${data.power},${data.kills},${data.modern_kills},${data.image},${this.state.created})`
-          console.log('Insert player info', result)
+          VALUES(${data.uid},${data.name},${data.power},${data.kills},${data.modern_kills},${data.image},${this.state.created}) 
+          ON CONFLICT (uid) DO NOTHING`
+          //console.log('Insert player info', result)
           return result
       }
       return -2
@@ -100,32 +105,34 @@ export default class Player  {
       const OneToI = name.replace(/[1]+/gi, 'I')
       const OneToL = name.replace(/[1]+/gi, 'l')
       const LneTo1 = name.replace(/[l]+/gi, '1')
-      const wild = name.replace(/([\.\~\-\=\_\(\)\{\}\/]+)/g, '%').trim()
-      const remove_begin = data.name.slice(4, -2).trim()
-      const remove_end = data.name.slice(0, -4).trim()
+      const wild = '%' + name.replace(/([\.\~\-\=\_\(\)\{\}\/]+)/g, '%').trim() + '%'
+      const remove_begin = '%' + data.name.slice(4, -2).trim()
+      const remove_end = data.name.slice(0, -4).trim() + '%'
       
-      const {rows} = await sql`SELECT uid FROM players WHERE 
-        ( 
-          name LIKE ${name}
+      console.log('Starting to search for the name')
+      const {rows} = await sql`SELECT uid, name FROM players 
+      WHERE 
+          name ILIKE  ${name}
           OR
-          name LIKE ${ZeroToO}
+          SIMILARITY(name,${name}) > 0.5 
           OR
-          name LIKE ${OToZero}
+          name ILIKE  ${ZeroToO}
           OR
-          name LIKE ${OneToI}
+          name ILIKE  ${OToZero}
           OR
-          name LIKE ${OneToL}
+          name ILIKE  ${OneToI}
           OR
-          name LIKE ${LneTo1}
+          name ILIKE  ${OneToL}
           OR
-          name LIKE ${remove_begin}
+          name ILIKE  ${LneTo1}
           OR
-          name LIKE ${remove_end}
+          name ILIKE  ${remove_begin}
           OR
-          name LIKE ${sliced_name}
+          name ILIKE  ${remove_end}
           OR
-          name LIKE ${wild}
-        )
+          name ILIKE  ${sliced_name}
+          OR
+          name ILIKE  ${wild}
         LIMIT 1`
         
       console.log('Search UID by name', rows)

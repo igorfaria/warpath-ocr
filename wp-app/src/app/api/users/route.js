@@ -10,16 +10,18 @@ export async function GET( req ) {
     if(list == null) return NextResponse.json(nothing_here)
     let users = false
     try {
-        users = Users()
+        users = await Users()
     } catch ( e ) {
         if(CreateDB()){ 
             users = false
             try {
-                users = Users()
+                users = await Users()
             } catch (err) {
                 console.log('Retrying getting users after re/create the tables', err)
             }
         }
     }
+    console.log('users', users)
+    
     return NextResponse.json(users && users.length ? users : nothing_here)
 }

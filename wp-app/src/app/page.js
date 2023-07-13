@@ -19,7 +19,7 @@ export default function Home() {
     } catch (err) {
       console.log('err', err)
     }
-  })
+  }, [])
   
 
   const navItems = [
@@ -45,7 +45,7 @@ export default function Home() {
     <main className="min-h-screen p-6 font-brother1816">
       <Navbar items={navItems} />
       <section key='title' className='container mb-10'>
-      <h1><span className='page-title'>WARPATH</span> <span className='page-title'>LOL</span></h1>
+      <h1><span className='page-title'><span>W</span>ARPATH</span> <span className='page-title'><span>L</span>OL</span></h1>
       </section>
       {typeof users == 'object' && 'nothing' in users 
       ? (

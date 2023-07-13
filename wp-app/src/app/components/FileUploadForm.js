@@ -79,11 +79,10 @@ const FileUploadForm = () => {
             <a href='/upload/' className='click-here primary'>Do you want to upload more?</a>
         </div>)
       } else {
-        return (<div>
-           <div className='page-title'><code>Working on it \o/</code></div>
-           <br /><br /><br />
-           <div className='page-title'><code>Progress {uploading.count}/{uploading.total}</code></div>
-           <br /><br />
+        return (<div className='flex flex-col'>
+           <div className='page-title mt-0'><code>Working on it \o/</code></div>
+           <div className='page-title mt-0'><code>Progress {uploading.count}/{uploading.total}</code></div>
+           <br />
            <p>There is no magic here, so you need to patiently wait :D</p>
           </div>
           )
@@ -116,7 +115,7 @@ const FileUploadForm = () => {
             </button>
         </div>
         <div className='mt-10 flex flex-col'>
-            {(typeof images == 'object' && images.length) ? (<><h1 className="page-title">UHUUUL \o/</h1><p className="page-title"><code>{images.length} selected files :D</code></p><p>Continue the upload by clicking on the <span className='primary-color bolder_font cursor-pointer' onClick={submitForm}>Upload</span> button (:</p></>) : ''}
+            {(typeof images == 'object' && images.length) ? (<><h1 className="page-title mt-0"><code>UHUUUL \o/</code></h1><p className="page-title mt-0"><code>{images.length} selected files :D</code></p><p>Continue the upload by clicking on the <span className='primary-color bolder_font cursor-pointer' onClick={submitForm}>Upload</span> button (:</p></>) : ''}
             </div>
       </form>
     );

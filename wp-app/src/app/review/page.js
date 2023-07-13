@@ -31,7 +31,7 @@ export default function Review() {
     return (
         <main className="min-h-screen p-6 font-brother1816">
             <section key='title' className='container mb-10'>
-                <h1 className='page-title'>Review</h1>
+                <h1 className='page-title'>REVIEW</h1>
             </section>
 
             <section className='mt-15'>
