@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import sqlLite from '@/app/components/sqlLite'
 import Images from '@/app/components/Images'
 import ImageOCR from '@/app/components/ImageOCR'
 
@@ -18,7 +17,7 @@ export async function GET(req) {
     return NextResponse.json({ 'files': 'The are no images to proccess', success: true })
 
   const response = {}
-  const db = sqlLite()
+  const db = null
 
   const insertOrUpdate = async (data) => {
     if (! 'uid' in data) return false
