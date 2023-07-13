@@ -1,12 +1,12 @@
 import fs from 'fs'
 import { NextResponse } from 'next/server'
 import Player from '@/app/components/Player'
+import path from 'path'
 
 export async function POST(req) {
   let response = []
   const formData = await req.formData()
   const formDataEntryValues = Array.from(formData.values())
-  const path = require('path');
 
   for (const formDataEntryValue of formDataEntryValues) {
     if (typeof formDataEntryValue === 'object' && 'arrayBuffer' in formDataEntryValue) {
