@@ -41,15 +41,18 @@ const FileUploadForm = () => {
                 }
               )
             }
-         
-            const { data } = await axiosQueue.post('/api/upload', formData)
-            
+            let data = {}
+            try {
+              let { data } = await axiosQueue.post('/api/upload', formData)
+            } catch (err) {
+              console.log('error FileUploadForm')
+            }
             //axios.then( ({data}) => {
               setUploading(
                   {
                     'count': counter, 
                     'total': images.length, 
-                    'response': data.response
+                    'response': data
                   }
                 )
             //})
@@ -68,7 +71,7 @@ const FileUploadForm = () => {
     }
 
     if( typeof uploading == 'object' && 'count' in uploading) {
-      if(uploading.count >= images.length){
+      if(uploading.count >= images.length - 1){
         return (<div>
             <div className='page-title'>Completed \o/</div>
             <br /><br /><br />
@@ -79,7 +82,7 @@ const FileUploadForm = () => {
       } else {
         return (<div className='flex flex-col'>
            <div className='page-title mt-0'><code>Working on it \o/</code></div>
-           <div className='page-title mt-0'><code>Progress {uploading.count}/{uploading.total}</code></div>
+           <div className='page-title mt-0'><code>Progress {uploading.count + 1}/{uploading.total}</code></div>
            <br />
            <p>There is no magic here, so you need to patiently wait :D</p>
           </div>

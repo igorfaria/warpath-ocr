@@ -3,7 +3,7 @@ import FileUploadForm from '../components/FileUploadForm'
 import Navbar from '../components/Navbar'
 import HomeIcon from '../components/icons/HomeIcon'
 import UploadIcon from '../components/icons/UploadIcon'
-import NextIcon from '../components/icons/NextIcon'
+import EditIcon from '../components/icons/EditIcon'
 
 export default function Upload() {
     const uploadButton = () => {
@@ -39,7 +39,7 @@ export default function Upload() {
             onClick: () => {
                 window.location = '/review'
             },
-            icon: NextIcon()
+            icon: EditIcon()
         }
     ]
 

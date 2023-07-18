@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import CreateDB from '../../components/CreateDB'
 import Users from '../../components/Users'
 
 export async function GET( req ) {
@@ -12,16 +11,8 @@ export async function GET( req ) {
     try {
         users = await Users()
     } catch ( e ) {
-        if(CreateDB()){ 
-            users = false
-            try {
-                users = await Users()
-            } catch (err) {
-                console.log('Retrying getting users after re/create the tables', err)
-            }
-        }
-    }
-    console.log('users', users)
+        console.log('Retrying getting users after re/create the tables', err)
+     }
     
     return NextResponse.json(users && users.length ? users : nothing_here)
 }

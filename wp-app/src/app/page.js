@@ -5,7 +5,7 @@ import TableUsers from './components/TableUsers'
 import Navbar from './components/Navbar'
 import HomeIcon from './components/icons/HomeIcon'
 import UploadIcon from './components/icons/UploadIcon'
-import NextIcon from './components/icons/NextIcon'
+import EditIcon from './components/icons/EditIcon'
 
 export default function Home() {
   const [users, setUsers] = useState([])
@@ -26,7 +26,7 @@ export default function Home() {
       {
           label: 'Review',
           onClick: () => window.location = '/review',
-          icon: NextIcon()
+          icon: EditIcon()
       },
       { 
           label: 'Home',

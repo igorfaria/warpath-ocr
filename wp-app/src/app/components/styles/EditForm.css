@@ -1,0 +1,57 @@
+.editForm > form {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background-color: var(--dark-color-2);
+}
+
+.editForm > form > div {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0.5rem;
+}
+
+.editForm > form > div.wrapper-double {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.wrapper-double > div {
+    flex: 1;
+    min-width: 200px;
+    align-self: end;
+}
+
+.editForm label {
+    display: block;
+    margin-bottom: .1rem;
+    color: var(--primary-color);
+    font-family: 'Courier New', Courier, ui-monospace, monospace;
+    font-weight: 600;
+}
+
+.editForm input[type='text'] {
+    color: white;
+    background: rgba(255,255,255,.1);
+    padding: .2rem;
+    transition: .3s ease-in-out;
+    width: 100%;
+}
+
+.editForm input[type='text']:focus,
+.editForm input[type='text']:active {
+    outline: none;
+    background: white;
+    color: var(--dark-color);
+    
+}
+
+.editForm .actions {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+    min-width: initial;
+    display: flex;
+}

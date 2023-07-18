@@ -29,6 +29,7 @@ const CreateDB = async () => {
         processed TEXT,
         data TEXT,
         raw TEXT,
+        type TEXT,
         created TEXT,
         updated TEXT);`
     

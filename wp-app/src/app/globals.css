@@ -12,6 +12,14 @@
   src: url("../../public/fonts/Brother-1816-ExtraBold.woff");
 }
 
+a {
+  color: var(--primary-color);
+  font-family: 'Brother-1816-Bolder';
+}
+
+a:hover,a:focus,a:active {
+  color: white !important;
+}
 
 :root {
   --regular-font: "Brother-1816", sans-serif;
@@ -78,6 +86,45 @@ body {
   background-blend-mode: difference;
 }
 
+.btn {
+  padding: .3rem 2rem;
+  border: 1px solid;
+  color: var(--primary-color)
+}
+
+.btn:hover,
+.btn:focus,
+.btn:active {
+  padding: .3rem 2rem;
+  border: 1px solid;
+  background: var(--primary-color);
+  color: var(--dark-color);
+}
+
+.btn.save {
+  color: var(--action-color);
+}
+
+.btn.save:hover,
+.btn.save:active,
+.btn.save:focus {
+  background: var(--action-color);
+  border-color: var(--action-color);
+  color: var(--dark-color);
+}
+
+
+.btn.delete {
+  color: var(--delete-color);
+}
+
+.btn.delete:hover,
+.btn.delete:active,
+.btn.delete:focus {
+  color: var(--dark-color);
+  background: var(--delete-color);
+  border-color: var(--delete-color);
+}
 
 .table-user {
   min-width: 80svw;
@@ -217,3 +264,6 @@ span.page-title::first-letter {
   max-height: 100svh;
   overflow-y: auto;
 }
+
+
+@import url('./components/styles/EditForm.css');
